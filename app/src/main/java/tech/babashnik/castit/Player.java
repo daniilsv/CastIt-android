@@ -23,6 +23,8 @@ public class Player implements ExoPlayer.Listener {
 
     public void stop() {
         if (exoPlayer != null) {
+            exoPlayer.seekTo(0);
+            exoPlayer.setPlayWhenReady(false);
             exoPlayer.stop();
         }
     }

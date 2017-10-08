@@ -5,12 +5,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class PlayService extends Service {
     Player player;
     Notification status;
+    boolean isPause = false;
 
     public PlayService() {
         player = new Player();
@@ -21,15 +21,39 @@ public class PlayService extends Service {
         super.onCreate();
     }
 
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        player.start("http://52.169.1.232:7373/ices", this);
-        Log.e("PlayService", "vse zbs");
-        showNotification(0);
-        return super.onStartCommand(intent, flags, startId);
+
+        if (intent.getAction().equals("start")) {
+            showNotification(0);
+            player.start("http://52.169.1.232:7373/ices", this);
+            isPause = false;
+        }
+        if (intent.getAction().equals("pause_resume")) {
+            if (!isPause) {
+                showNotification(2);
+                player.stop();
+                isPause = true;
+            } else {
+                showNotification(1);
+                player.start("http://52.169.1.232:7373/ices", this);
+                isPause = false;
+            }
+        }
+        if (intent.getAction().equals("exit")) {
+            player.stop();
+            stopForeground(true);
+            stopSelf();
+        }
+        if (intent.getAction().equals("main")) {
+            intent = new Intent(this, MainActivity.class);
+            onStartCommand(intent, flags, startId);
+        }
+
+        return START_STICKY;
     }
 
     public void onDestroy() {
-        player.stop();
         super.onDestroy();
 
     }
@@ -44,17 +68,17 @@ public class PlayService extends Service {
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.status_bar);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        notificationIntent.setAction("tech.babashnik.castit.action.main");
+        notificationIntent.setAction("main");
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         Intent playIntent = new Intent(this, PlayService.class);
-        playIntent.setAction("tech.babashnik.castit.action.play");
+        playIntent.setAction("pause_resume");
         PendingIntent pplayIntent = PendingIntent.getService(this, 0, playIntent, 0);
         views.setOnClickPendingIntent(R.id.status_bar_play, pplayIntent);
 
         Intent closeIntent = new Intent(this, PlayService.class);
-        closeIntent.setAction("tech.babashnik.castit.action.stop");
+        closeIntent.setAction("exit");
         PendingIntent pcloseIntent = PendingIntent.getService(this, 0, closeIntent, 0);
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
 

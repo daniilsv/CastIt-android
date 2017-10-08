@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         bStart.setOnClickListener(controlButtonListener);
     }
 
-    private void stopPlayerService() {
+    public void stopPlayerService() {
         stopService(serviceIntent);
     }
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPlayerService() {
         serviceIntent = new Intent(MainActivity.this, PlayService.class);
-        serviceIntent.setAction(String.valueOf(serviceIntent));
+        serviceIntent.setAction("start");
         startService(serviceIntent);
     }
 }
