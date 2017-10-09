@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CastIt.iml" filepath="$PROJECT_DIR$/CastIt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CastIt-android.iml" filepath="$PROJECT_DIR$/CastIt-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
