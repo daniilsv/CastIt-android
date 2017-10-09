@@ -9,6 +9,6 @@ import retrofit2.http.GET;
  */
 public interface CastItApi {
 
-    @GET("/get.track.current")
+    @GET("get.track.current")
     Call<Responce> getData();
 }

@@ -19,6 +19,9 @@ public class PlayService extends Service {
 
     public void onCreate() {
         super.onCreate();
+        TrackCheker trackCheker = new TrackCheker();
+        trackCheker.start();
+
     }
 
     @Override

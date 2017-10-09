@@ -3,16 +3,16 @@ package tech.babashnik.castit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    static TextView trackView;
+    static TextView authorView;
+    private static MainActivity instance = null;
     public Button bStart;
     public boolean isStarted = false;
     public Response response;
@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,42 +42,8 @@ public class MainActivity extends AppCompatActivity {
         bStart = findViewById(R.id.start_btn);
         bStart.setOnClickListener(controlButtonListener);
 
-        final TextView trackView = findViewById(R.id.track);
-        final TextView authorView = findViewById(R.id.author);
-
-
-        App.getApi().getData().enqueue(new Callback<Responce>() {
-            @Override
-            public void onResponse(Call<Responce> call, Response<Responce> response) {
-                Responce r = response.body();
-                if (r == null)
-                    return;
-                String[] split;
-                switch (r.type) {
-                    case "track":
-                        Track t = r.track.get(0);
-                        split = t.title.split(" - ");
-                        Log.e("MainTrack", split.toString());
-                        authorView.setText(split[0]);
-                        trackView.setText(split[1]);
-                        break;
-                    case "mix":
-                        Track t2 = r.track.get(1);
-                        split = t2.title.split(" - ");
-                        Log.e("MainMix", split.toString());
-                        authorView.setText(split[0]);
-                        trackView.setText(split[1]);
-                        break;
-                }
-                //TODO:
-            }
-
-            @Override
-            public void onFailure(Call<Responce> call, Throwable t) {
-
-            }
-        });
-
+        trackView = findViewById(R.id.track);
+        authorView = findViewById(R.id.author);
 
     }
 
@@ -85,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        instance = null;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        instance = this;
     }
 
     public void startPlayerService() {
