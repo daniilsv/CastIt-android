@@ -3,9 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2196F3"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/line" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1976D2"
+            android:layout_weight="1" />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:weightSum="4">
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/track"
@@ -26,9 +48,9 @@
                 android:layout_weight="2"
                 android:gravity="bottom"
                 android:text="Name"
+                android:textSize="25sp"
                 android:textAlignment="center"
-                android:textColor="#FAFAFA"
-                android:textSize="40dp" />
+                android:textColor="#FAFAFA"/>
 
             <TextView
                 android:id="@+id/author"
@@ -36,10 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="top"
+                android:textSize="15sp"
                 android:text="Name"
                 android:textAlignment="center"
-                android:textColor="#FAFAFA"
-                android:textSize="20dp" />
+                android:textColor="#FAFAFA" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,15 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/line" />
-
                 <Button
-                    android:id="@+id/start_btn"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
@@ -70,36 +84,23 @@
                     android:text="Buy"
                     android:textAllCaps="false"
                     android:textColor="#2196F3"
-                    android:textSize="40dp" />
+                    android:textSize="40dp"/>
             </RelativeLayout>
         </LinearLayout>
 
-
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_btn"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:scaleX="2"
+            android:scaleY="1.8"
+            />
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="5:00" />
-
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="6:00" />
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

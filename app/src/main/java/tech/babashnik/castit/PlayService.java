@@ -5,13 +5,15 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.ImageButton;
 import android.widget.RemoteViews;
+
 
 public class PlayService extends Service {
     Player player;
     Notification status;
+    public ImageButton bStart;
     boolean isPause = false;
-
     public PlayService() {
         player = new Player();
 
@@ -34,11 +36,11 @@ public class PlayService extends Service {
         }
         if (intent.getAction().equals("pause_resume")) {
             if (!isPause) {
-                showNotification(2);
+                showNotification(1);
                 player.stop();
                 isPause = true;
             } else {
-                showNotification(1);
+                showNotification(0);
                 player.start("http://52.169.1.232:7373/ices", this);
                 isPause = false;
             }
@@ -57,6 +59,7 @@ public class PlayService extends Service {
     }
 
     public void onDestroy() {
+        player.stop();
         super.onDestroy();
 
     }
@@ -86,15 +89,23 @@ public class PlayService extends Service {
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
 
         if (pos == 0) {
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.pause_ntf);
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_pause_black_24dp);
+            status = new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.ic_pause_black_24dp)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .build();
+        } else if(pos == 1){
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_play_arrow_black_24dp);
+            status = new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.ic_play_arrow_black_24dp)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .build();
         }
 
 
-        status = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.radio)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
-                .build();
+
         status.contentView = views;
         startForeground(101, status);
     }

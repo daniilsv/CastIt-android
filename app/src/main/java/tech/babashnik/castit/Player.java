@@ -17,7 +17,6 @@ import com.google.android.exoplayer.util.Util;
 
 
 public class Player implements ExoPlayer.Listener {
-
     ExoPlayer exoPlayer;
     TrackRenderer audioRenderer;
 

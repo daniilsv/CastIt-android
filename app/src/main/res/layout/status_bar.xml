@@ -1,49 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="5"
+    android:background="#2196F3">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_dark"
-        android:scaleType="centerCrop" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:text="Tap to open app"
+        android:textAlignment="center"
+        android:textColor="#FAFAFA"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/status_bar_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pause_black_24dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_weight="1"/>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <ImageButton
+        android:id="@+id/status_bar_collapse"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_black_24dp"
+        style="?android:attr/borderlessButtonStyle"/>
 
-        <ImageButton
-            android:id="@+id/status_bar_play"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:background="@drawable/play_buton_notif"
-            android:scaleType="fitCenter"
-            android:src="@drawable/play_ntf" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="11dp">
-
-
-        </LinearLayout>
-
-
-        <ImageButton
-            android:id="@+id/status_bar_collapse"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/close" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
