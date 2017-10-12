@@ -5,24 +5,20 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.ImageButton;
 import android.widget.RemoteViews;
 
 
 public class PlayService extends Service {
     Player player;
     Notification status;
-    public ImageButton bStart;
     boolean isPause = false;
-    public PlayService() {
-        player = new Player();
 
-    }
 
     public void onCreate() {
         super.onCreate();
         TrackCheker trackCheker = new TrackCheker();
         trackCheker.start();
+        player = new Player(this, "http://52.169.1.232:7373/ices");
 
     }
 
@@ -31,7 +27,7 @@ public class PlayService extends Service {
 
         if (intent.getAction().equals("start")) {
             showNotification(0);
-            player.start("http://52.169.1.232:7373/ices", this);
+            player.start();
             isPause = false;
         }
         if (intent.getAction().equals("pause_resume")) {
@@ -41,7 +37,7 @@ public class PlayService extends Service {
                 isPause = true;
             } else {
                 showNotification(0);
-                player.start("http://52.169.1.232:7373/ices", this);
+                player.start();
                 isPause = false;
             }
         }
@@ -88,24 +84,20 @@ public class PlayService extends Service {
         PendingIntent pcloseIntent = PendingIntent.getService(this, 0, closeIntent, 0);
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
 
+        int small_icon = 0;
         if (pos == 0) {
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_pause_black_24dp);
-            status = new Notification.Builder(this)
-                    .setSmallIcon(R.drawable.ic_pause_black_24dp)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .build();
-        } else if(pos == 1){
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_play_arrow_black_24dp);
-            status = new Notification.Builder(this)
-                    .setSmallIcon(R.drawable.ic_play_arrow_black_24dp)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .build();
+            small_icon = R.drawable.ic_pause_black_24dp;
+        } else if (pos == 1) {
+            small_icon = R.drawable.ic_play_arrow_black_24dp;
         }
 
 
-
+        views.setImageViewResource(R.id.status_bar_play, small_icon);
+        status = new Notification.Builder(this)
+                .setSmallIcon(small_icon)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .build();
         status.contentView = views;
         startForeground(101, status);
     }

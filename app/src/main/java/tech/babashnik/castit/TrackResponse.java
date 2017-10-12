@@ -5,11 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by GE72 on 09.10.2017.
- */
 
-public class Responce {
+class TrackResponse {
 
 
     @SerializedName("track")

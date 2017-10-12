@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import retrofit2.Response;
-
 public class MainActivity extends AppCompatActivity {
     static TextView trackView;
     static TextView authorView;
     private static MainActivity instance = null;
     public ImageButton bStart;
     public boolean isStarted = false;
-    public Response response;
     Intent serviceIntent;
     View.OnClickListener controlButtonListener = new View.OnClickListener() {
         @Override

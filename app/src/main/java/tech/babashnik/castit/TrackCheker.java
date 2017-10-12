@@ -6,14 +6,10 @@ import java.io.IOException;
 
 import retrofit2.Response;
 
-/**
- * Created by GE72 on 09.10.2017.
- */
+class TrackCheker extends Thread {
+    private boolean thrWork;
 
-public class TrackCheker extends Thread {
-    boolean thrWork;
-
-    public TrackCheker() {
+    TrackCheker() {
         super();
     }
 
@@ -34,40 +30,32 @@ public class TrackCheker extends Thread {
     }
 
     private void apiCheck() {
-        Response<Responce> res = null;
+        Response<TrackResponse> res = null;
         try {
             res = App.getApi().getData().execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final Responce r = res.body();
+        if (res == null) return;
+        TrackResponse r = res.body();
+        if (r == null) return;
 
-        if (r == null)
-            return;
-        if (MainActivity.getInstance() == null)
-            return;
-        MainActivity.getInstance().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String[] split;
-                Track t;
-                switch (r.type) {
-                    case "track":
-                        t = r.track.get(0);
-                        setMainTexts(t.title);
-                        break;
-                    case "mix":
-                        t = r.track.get(1);
-                        if (Integer.parseInt(t.duration) < 5)
-                            t = r.track.get(0);
-                        setMainTexts(t.title);
-                        break;
+        final Track t;
+        if (r.type.equals("mix") && Integer.parseInt(r.track.get(1).duration) > 5)
+            t = r.track.get(1);
+        else
+            t = r.track.get(0);
+
+        if (MainActivity.getInstance() != null)
+            MainActivity.getInstance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setMainTexts(t.title);
                 }
-            }
-        });
+            });
     }
 
-    void setMainTexts(String title) {
+    private void setMainTexts(String title) {
         Log.e("MainTrack", title);
         if (title.contains(" - ")) {
             String[] split = title.split(" - ");
